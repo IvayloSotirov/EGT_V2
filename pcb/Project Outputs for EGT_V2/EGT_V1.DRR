@@ -1,0 +1,20 @@
+---------------------------------------------------------------------------
+NCDrill File Report For: EGT_V1.PcbDoc   2/12/2016  9:43:22 PM
+---------------------------------------------------------------------------
+
+Layer Pair : Top Layer to Bottom Layer
+ASCII RoundHoles File : EGT_V1.TXT
+EIA File   : EGT_V1.DRL
+
+Tool         Hole Size           Hole Type     Hole Count Plated       Tool Travel
+---------------------------------------------------------------------------
+T1        0.5mm (19.685mil)        Round          28               142.55 mm (5.61 Inch)
+T2        0.762mm (30mil)          Round          8                19.01 mm (0.75 Inch)
+T3        0.8mm (31.496mil)        Round          8                18.67 mm (0.74 Inch)
+T4        1mm (39.37mil)           Round          14               103.09 mm (4.06 Inch)
+T5        1.2mm (47.244mil)        Round          3                10.59 mm (0.42 Inch)
+T6        1.3mm (51.181mil)        Round          6                35.00 mm (1.38 Inch)
+---------------------------------------------------------------------------
+Totals                                            67               328.91 mm (12.95 Inch)
+
+Total Processing Time (hh:mm:ss) : 00:00:01

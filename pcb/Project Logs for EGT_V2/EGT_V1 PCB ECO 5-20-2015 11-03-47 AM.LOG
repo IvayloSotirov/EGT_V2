@@ -1,0 +1,7 @@
+Removed Pin From Net: NetName=NetCp1_1 Pin=TS-505-6P-1
+Added Component: Designator=Dp2(SMA)
+Added Pin To Net: NetName=NetCp1_1 Pin=Dp2-2
+Added Pin To Net: NetName=NetDp2_1 Pin=Dp2-1
+Added Pin To Net: NetName=NetDp2_1 Pin=TS-505-6P-1
+Added Net: Name=NetDp2_1
+Added Member To Class: ClassName=EGT_V1 Member=Component Dp2 1N5819

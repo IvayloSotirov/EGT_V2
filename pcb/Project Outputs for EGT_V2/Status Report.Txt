@@ -1,0 +1,13 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : Project [EGT_V2.PrjPCB]
+   Generated File[EGT_V1.TXT]
+   Generated File[EGT_V1.DRL]
+   Generated File[EGT_V1.LDP]
+   Generated File[EGT_V1.DRR]
+
+
+Files Generated   : 4
+Documents Printed : 0
+
+Finished Output Generation At 9:43:23 PM On 2/12/2016
