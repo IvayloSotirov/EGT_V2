@@ -1,0 +1,695 @@
+   1               		.file	"ext_eeprom_mchp24.c"
+   2               		.arch at90s2313
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  17               	.Ltext0:
+  18               	.global	I2C_SendBit
+  20               	I2C_SendBit:
+  21               	.LFB2:
+  22               	.LM1:
+  23               	/* prologue: frame size=0 */
+  24               	/* prologue end (size=0) */
+  25               	.LM2:
+  26 0000 BC9A      		sbi 55-0x20,4
+  27               	.LM3:
+  28 0002 C398      		cbi 56-0x20,3
+  29               	.LM4:
+  30 0004 8823      		tst r24
+  31 0006 11F4      		brne .L2
+  32               	.LM5:
+  33 0008 C498      		cbi 56-0x20,4
+  34 000a 01C0      		rjmp .L3
+  35               	.L2:
+  36               	.LM6:
+  37 000c C49A      		sbi 56-0x20,4
+  38               	.L3:
+  39               	.LM7:
+  40 000e C39A      		sbi 56-0x20,3
+  41               	.LM8:
+  42 0010 C398      		cbi 56-0x20,3
+  43               	.LM9:
+  44 0012 C498      		cbi 56-0x20,4
+  45               	/* epilogue: frame size=0 */
+  46 0014 0895      		ret
+  47               	/* epilogue end (size=1) */
+  48               	/* function I2C_SendBit size 11 (10) */
+  49               	.LFE2:
+  51               	.global	I2C_GetBit
+  53               	I2C_GetBit:
+  54               	.LFB3:
+  55               	.LM10:
+  56               	/* prologue: frame size=0 */
+  57               	/* prologue end (size=0) */
+  58               	.LM11:
+  59 0016 BC98      		cbi 55-0x20,4
+  60               	.LM12:
+  61 0018 C49A      		sbi 56-0x20,4
+  62               	.LM13:
+  63 001a C398      		cbi 56-0x20,3
+  64               	.LM14:
+  65 001c C39A      		sbi 56-0x20,3
+  66               	.LM15:
+  67 001e 86B3      		in r24,54-0x20
+  68               	.LM16:
+  69 0020 C398      		cbi 56-0x20,3
+  70               	.LM17:
+  71 0022 BC9A      		sbi 55-0x20,4
+  72               	.LM18:
+  73 0024 8595      		asr r24
+  74 0026 8595      		asr r24
+  75 0028 8595      		asr r24
+  76 002a 8595      		asr r24
+  77 002c 9927      		clr r25
+  78 002e 87FD      		sbrc r24,7
+  79 0030 9095      		com r25
+  80               	.LM19:
+  81 0032 8170      		andi r24,lo8(1)
+  82 0034 9070      		andi r25,hi8(1)
+  83               	/* epilogue: frame size=0 */
+  84 0036 0895      		ret
+  85               	/* epilogue end (size=1) */
+  86               	/* function I2C_GetBit size 17 (16) */
+  87               	.LFE3:
+  89               	.global	I2C_SendByte
+  91               	I2C_SendByte:
+  92               	.LFB4:
+  93               	.LM20:
+  94               	/* prologue: frame size=0 */
+  95 0038 0F93      		push r16
+  96 003a 1F93      		push r17
+  97 003c CF93      		push r28
+  98 003e DF93      		push r29
+  99               	/* prologue end (size=4) */
+ 100 0040 082F      		mov r16,r24
+ 101               	.LM21:
+ 102 0042 17E0      		ldi r17,lo8(7)
+ 103 0044 C7E0      		ldi r28,lo8(7)
+ 104 0046 D0E0      		ldi r29,hi8(7)
+ 105               	.L9:
+ 106               	.LM22:
+ 107 0048 802F      		mov r24,r16
+ 108 004a 9927      		clr r25
+ 109 004c 0C2E      		mov r0,r28
+ 110 004e 02C0      		rjmp 2f
+ 111 0050 9595      	1:	asr r25
+ 112 0052 8795      		ror r24
+ 113 0054 0A94      	2:	dec r0
+ 114 0056 E2F7      		brpl 1b
+ 115 0058 8170      		andi r24,lo8(1)
+ 116 005a D2DF      		rcall I2C_SendBit
+ 117               	.LM23:
+ 118 005c 1150      		subi r17,lo8(-(-1))
+ 119 005e 2197      		sbiw r28,1
+ 120 0060 17FF      		sbrs r17,7
+ 121 0062 F2CF      		rjmp .L9
+ 122               	.LM24:
+ 123 0064 C398      		cbi 56-0x20,3
+ 124               	.LM25:
+ 125 0066 D7DF      		rcall I2C_GetBit
+ 126               	.LM26:
+ 127 0068 9927      		clr r25
+ 128 006a 87FD      		sbrc r24,7
+ 129 006c 9095      		com r25
+ 130               	/* epilogue: frame size=0 */
+ 131 006e DF91      		pop r29
+ 132 0070 CF91      		pop r28
+ 133 0072 1F91      		pop r17
+ 134 0074 0F91      		pop r16
+ 135 0076 0895      		ret
+ 136               	/* epilogue end (size=5) */
+ 137               	/* function I2C_SendByte size 32 (23) */
+ 138               	.LFE4:
+ 140               	.global	I2C_GetByte
+ 142               	I2C_GetByte:
+ 143               	.LFB5:
+ 144               	.LM27:
+ 145               	/* prologue: frame size=0 */
+ 146 0078 0F93      		push r16
+ 147 007a 1F93      		push r17
+ 148 007c CF93      		push r28
+ 149 007e DF93      		push r29
+ 150               	/* prologue end (size=4) */
+ 151               	.LM28:
+ 152 0080 00E0      		ldi r16,lo8(0)
+ 153               	.LM29:
+ 154 0082 17E0      		ldi r17,lo8(7)
+ 155 0084 C7E0      		ldi r28,lo8(7)
+ 156 0086 D0E0      		ldi r29,hi8(7)
+ 157               	.L16:
+ 158               	.LM30:
+ 159 0088 C6DF      		rcall I2C_GetBit
+ 160 008a 9927      		clr r25
+ 161 008c 87FD      		sbrc r24,7
+ 162 008e 9095      		com r25
+ 163 0090 8170      		andi r24,lo8(1)
+ 164 0092 9070      		andi r25,hi8(1)
+ 165 0094 0C2E      		mov r0,r28
+ 166 0096 02C0      		rjmp 2f
+ 167 0098 880F      	1:	lsl r24
+ 168 009a 991F      		rol r25
+ 169 009c 0A94      	2:	dec r0
+ 170 009e E2F7      		brpl 1b
+ 171 00a0 082B      		or r16,r24
+ 172               	.LM31:
+ 173 00a2 1150      		subi r17,lo8(-(-1))
+ 174 00a4 2197      		sbiw r28,1
+ 175 00a6 17FF      		sbrs r17,7
+ 176 00a8 EFCF      		rjmp .L16
+ 177               	.LM32:
+ 178 00aa C49A      		sbi 56-0x20,4
+ 179               	.LM33:
+ 180 00ac BC9A      		sbi 55-0x20,4
+ 181               	.LM34:
+ 182 00ae 802F      		mov r24,r16
+ 183 00b0 9927      		clr r25
+ 184 00b2 87FD      		sbrc r24,7
+ 185 00b4 9095      		com r25
+ 186               	/* epilogue: frame size=0 */
+ 187 00b6 DF91      		pop r29
+ 188 00b8 CF91      		pop r28
+ 189 00ba 1F91      		pop r17
+ 190 00bc 0F91      		pop r16
+ 191 00be 0895      		ret
+ 192               	/* epilogue end (size=5) */
+ 193               	/* function I2C_GetByte size 36 (27) */
+ 194               	.LFE5:
+ 196               	.global	EE_Read
+ 198               	EE_Read:
+ 199               	.LFB6:
+ 200               	.LM35:
+ 201               	/* prologue: frame size=0 */
+ 202 00c0 EF92      		push r14
+ 203 00c2 FF92      		push r15
+ 204 00c4 1F93      		push r17
+ 205 00c6 CF93      		push r28
+ 206 00c8 DF93      		push r29
+ 207               	/* prologue end (size=5) */
+ 208 00ca D92F      		mov r29,r25
+ 209 00cc C82F      		mov r28,r24
+ 210 00ce E62E      		mov r14,r22
+ 211 00d0 F72E      		mov r15,r23
+ 212               	.LM36:
+ 213 00d2 8070      		andi r24,lo8(-32768)
+ 214 00d4 9078      		andi r25,hi8(-32768)
+ 215 00d6 892F      		mov r24,r25
+ 216 00d8 9927      		clr r25
+ 217 00da 8295      		swap r24
+ 218 00dc 8F70      		andi r24,0x0f
+ 219 00de 182F      		mov r17,r24
+ 220 00e0 1870      		andi r17,lo8(8)
+ 221               	.LM37:
+ 222 00e2 88B3      		in r24,56-0x20
+ 223 00e4 8861      		ori r24,lo8(24)
+ 224 00e6 88BB      		out 56-0x20,r24
+ 225 00e8 87B3      		in r24,55-0x20
+ 226 00ea 8861      		ori r24,lo8(24)
+ 227 00ec 87BB      		out 55-0x20,r24
+ 228 00ee C498      		cbi 56-0x20,4
+ 229 00f0 C398      		cbi 56-0x20,3
+ 230               	.LM38:
+ 231 00f2 812F      		mov r24,r17
+ 232 00f4 806A      		ori r24,lo8(-96)
+ 233 00f6 A0DF      		rcall I2C_SendByte
+ 234 00f8 8823      		tst r24
+ 235 00fa 11F5      		brne .L25
+ 236               	.LM39:
+ 237 00fc 8D2F      		mov r24,r29
+ 238 00fe 9927      		clr r25
+ 239 0100 9BDF      		rcall I2C_SendByte
+ 240 0102 8823      		tst r24
+ 241 0104 E9F4      		brne .L25
+ 242               	.LM40:
+ 243 0106 8C2F      		mov r24,r28
+ 244 0108 97DF      		rcall I2C_SendByte
+ 245 010a 8823      		tst r24
+ 246 010c C9F4      		brne .L25
+ 247               	.LM41:
+ 248 010e 88B3      		in r24,56-0x20
+ 249 0110 8861      		ori r24,lo8(24)
+ 250 0112 88BB      		out 56-0x20,r24
+ 251 0114 87B3      		in r24,55-0x20
+ 252 0116 8861      		ori r24,lo8(24)
+ 253 0118 87BB      		out 55-0x20,r24
+ 254 011a C498      		cbi 56-0x20,4
+ 255 011c C398      		cbi 56-0x20,3
+ 256               	.LM42:
+ 257 011e 812F      		mov r24,r17
+ 258 0120 816A      		ori r24,lo8(-95)
+ 259 0122 8ADF      		rcall I2C_SendByte
+ 260 0124 8823      		tst r24
+ 261 0126 61F4      		brne .L25
+ 262               	.LM43:
+ 263 0128 A7DF      		rcall I2C_GetByte
+ 264               	.LM44:
+ 265 012a C398      		cbi 56-0x20,3
+ 266 012c BC9A      		sbi 55-0x20,4
+ 267 012e C498      		cbi 56-0x20,4
+ 268 0130 C39A      		sbi 56-0x20,3
+ 269 0132 C49A      		sbi 56-0x20,4
+ 270               	.LM45:
+ 271 0134 FF2D      		mov r31,r15
+ 272 0136 EE2D      		mov r30,r14
+ 273 0138 8083      		st Z,r24
+ 274               	.LM46:
+ 275 013a 80E0      		ldi r24,lo8(0)
+ 276 013c 90E0      		ldi r25,hi8(0)
+ 277 013e 07C0      		rjmp .L19
+ 278               	.L25:
+ 279               	.LM47:
+ 280 0140 C398      		cbi 56-0x20,3
+ 281 0142 BC9A      		sbi 55-0x20,4
+ 282 0144 C498      		cbi 56-0x20,4
+ 283 0146 C39A      		sbi 56-0x20,3
+ 284 0148 C49A      		sbi 56-0x20,4
+ 285               	.LM48:
+ 286 014a 8FEF      		ldi r24,lo8(-1)
+ 287 014c 9FEF      		ldi r25,hi8(-1)
+ 288               	.L19:
+ 289               	/* epilogue: frame size=0 */
+ 290 014e DF91      		pop r29
+ 291 0150 CF91      		pop r28
+ 292 0152 1F91      		pop r17
+ 293 0154 FF90      		pop r15
+ 294 0156 EF90      		pop r14
+ 295 0158 0895      		ret
+ 296               	/* epilogue end (size=6) */
+ 297               	/* function EE_Read size 77 (66) */
+ 298               	.LFE6:
+ 300               	.global	EE_PageRead
+ 302               	EE_PageRead:
+ 303               	.LFB7:
+ 304               	.LM49:
+ 305               	/* prologue: frame size=0 */
+ 306 015a EF92      		push r14
+ 307 015c FF92      		push r15
+ 308 015e 0F93      		push r16
+ 309 0160 1F93      		push r17
+ 310 0162 CF93      		push r28
+ 311 0164 DF93      		push r29
+ 312               	/* prologue end (size=6) */
+ 313 0166 D92F      		mov r29,r25
+ 314 0168 C82F      		mov r28,r24
+ 315 016a E62E      		mov r14,r22
+ 316 016c F72E      		mov r15,r23
+ 317 016e 142F      		mov r17,r20
+ 318               	.LM50:
+ 319 0170 4134      		cpi r20,lo8(65)
+ 320 0172 08F0      		brlo .+2
+ 321 0174 4EC0      		rjmp .L47
+ 322               	.LM51:
+ 323 0176 97FD      		sbrc r25,7
+ 324 0178 06C0      		rjmp .L30
+ 325 017a 840F      		add r24,r20
+ 326 017c 911D      		adc r25,__zero_reg__
+ 327 017e 8150      		subi r24,lo8(-32767)
+ 328 0180 9048      		sbci r25,hi8(-32767)
+ 329 0182 08F0      		brlo .+2
+ 330 0184 46C0      		rjmp .L47
+ 331               	.L30:
+ 332               	.LM52:
+ 333 0186 8C2F      		mov r24,r28
+ 334 0188 9D2F      		mov r25,r29
+ 335 018a 8070      		andi r24,lo8(-32768)
+ 336 018c 9078      		andi r25,hi8(-32768)
+ 337 018e 892F      		mov r24,r25
+ 338 0190 9927      		clr r25
+ 339 0192 8295      		swap r24
+ 340 0194 8F70      		andi r24,0x0f
+ 341 0196 082F      		mov r16,r24
+ 342 0198 0870      		andi r16,lo8(8)
+ 343               	.LM53:
+ 344 019a 88B3      		in r24,56-0x20
+ 345 019c 8861      		ori r24,lo8(24)
+ 346 019e 88BB      		out 56-0x20,r24
+ 347 01a0 87B3      		in r24,55-0x20
+ 348 01a2 8861      		ori r24,lo8(24)
+ 349 01a4 87BB      		out 55-0x20,r24
+ 350 01a6 C498      		cbi 56-0x20,4
+ 351 01a8 C398      		cbi 56-0x20,3
+ 352               	.LM54:
+ 353 01aa 802F      		mov r24,r16
+ 354 01ac 806A      		ori r24,lo8(-96)
+ 355 01ae 44DF      		rcall I2C_SendByte
+ 356 01b0 8823      		tst r24
+ 357 01b2 51F5      		brne .L40
+ 358               	.LM55:
+ 359 01b4 8D2F      		mov r24,r29
+ 360 01b6 9927      		clr r25
+ 361 01b8 3FDF      		rcall I2C_SendByte
+ 362 01ba 8823      		tst r24
+ 363 01bc 29F5      		brne .L40
+ 364               	.LM56:
+ 365 01be 8C2F      		mov r24,r28
+ 366 01c0 3BDF      		rcall I2C_SendByte
+ 367 01c2 8823      		tst r24
+ 368 01c4 09F5      		brne .L40
+ 369               	.LM57:
+ 370 01c6 88B3      		in r24,56-0x20
+ 371 01c8 8861      		ori r24,lo8(24)
+ 372 01ca 88BB      		out 56-0x20,r24
+ 373 01cc 87B3      		in r24,55-0x20
+ 374 01ce 8861      		ori r24,lo8(24)
+ 375 01d0 87BB      		out 55-0x20,r24
+ 376 01d2 C498      		cbi 56-0x20,4
+ 377 01d4 C398      		cbi 56-0x20,3
+ 378               	.LM58:
+ 379 01d6 802F      		mov r24,r16
+ 380 01d8 816A      		ori r24,lo8(-95)
+ 381 01da 2EDF      		rcall I2C_SendByte
+ 382 01dc 8823      		tst r24
+ 383 01de A1F4      		brne .L40
+ 384               	.L46:
+ 385               	.LM59:
+ 386 01e0 1123      		tst r17
+ 387 01e2 51F0      		breq .L45
+ 388               	.LM60:
+ 389 01e4 49DF      		rcall I2C_GetByte
+ 390 01e6 FF2D      		mov r31,r15
+ 391 01e8 EE2D      		mov r30,r14
+ 392 01ea 8193      		st Z+,r24
+ 393 01ec EE2E      		mov r14,r30
+ 394 01ee FF2E      		mov r15,r31
+ 395               	.LM61:
+ 396 01f0 80E0      		ldi r24,lo8(0)
+ 397 01f2 06DF      		rcall I2C_SendBit
+ 398               	.LM62:
+ 399 01f4 1150      		subi r17,lo8(-(-1))
+ 400 01f6 F4CF      		rjmp .L46
+ 401               	.L45:
+ 402               	.LM63:
+ 403 01f8 C398      		cbi 56-0x20,3
+ 404 01fa BC9A      		sbi 55-0x20,4
+ 405 01fc C498      		cbi 56-0x20,4
+ 406 01fe C39A      		sbi 56-0x20,3
+ 407 0200 C49A      		sbi 56-0x20,4
+ 408               	.LM64:
+ 409 0202 80E0      		ldi r24,lo8(0)
+ 410 0204 90E0      		ldi r25,hi8(0)
+ 411 0206 07C0      		rjmp .L29
+ 412               	.L40:
+ 413               	.LM65:
+ 414 0208 C398      		cbi 56-0x20,3
+ 415 020a BC9A      		sbi 55-0x20,4
+ 416 020c C498      		cbi 56-0x20,4
+ 417 020e C39A      		sbi 56-0x20,3
+ 418 0210 C49A      		sbi 56-0x20,4
+ 419               	.L47:
+ 420               	.LM66:
+ 421 0212 8FEF      		ldi r24,lo8(-1)
+ 422 0214 9FEF      		ldi r25,hi8(-1)
+ 423               	.L29:
+ 424               	/* epilogue: frame size=0 */
+ 425 0216 DF91      		pop r29
+ 426 0218 CF91      		pop r28
+ 427 021a 1F91      		pop r17
+ 428 021c 0F91      		pop r16
+ 429 021e FF90      		pop r15
+ 430 0220 EF90      		pop r14
+ 431 0222 0895      		ret
+ 432               	/* epilogue end (size=7) */
+ 433               	/* function EE_PageRead size 102 (89) */
+ 434               	.LFE7:
+ 436               	.global	EE_Write
+ 438               	EE_Write:
+ 439               	.LFB8:
+ 440               	.LM67:
+ 441               	/* prologue: frame size=0 */
+ 442 0224 EF92      		push r14
+ 443 0226 FF92      		push r15
+ 444 0228 0F93      		push r16
+ 445 022a 1F93      		push r17
+ 446 022c CF93      		push r28
+ 447 022e DF93      		push r29
+ 448               	/* prologue end (size=6) */
+ 449 0230 D92F      		mov r29,r25
+ 450 0232 C82F      		mov r28,r24
+ 451 0234 E62E      		mov r14,r22
+ 452 0236 F72E      		mov r15,r23
+ 453               	.LM68:
+ 454 0238 8070      		andi r24,lo8(-32768)
+ 455 023a 9078      		andi r25,hi8(-32768)
+ 456 023c 892F      		mov r24,r25
+ 457 023e 9927      		clr r25
+ 458 0240 8295      		swap r24
+ 459 0242 8F70      		andi r24,0x0f
+ 460 0244 082F      		mov r16,r24
+ 461 0246 0870      		andi r16,lo8(8)
+ 462               	.L51:
+ 463               	.LM69:
+ 464 0248 88B3      		in r24,56-0x20
+ 465 024a 8861      		ori r24,lo8(24)
+ 466 024c 88BB      		out 56-0x20,r24
+ 467 024e 87B3      		in r24,55-0x20
+ 468 0250 8861      		ori r24,lo8(24)
+ 469 0252 87BB      		out 55-0x20,r24
+ 470 0254 C498      		cbi 56-0x20,4
+ 471 0256 C398      		cbi 56-0x20,3
+ 472 0258 102F      		mov r17,r16
+ 473 025a 106A      		ori r17,lo8(-96)
+ 474 025c 812F      		mov r24,r17
+ 475 025e ECDE      		rcall I2C_SendByte
+ 476 0260 8823      		tst r24
+ 477 0262 91F7      		brne .L51
+ 478               	.LM70:
+ 479 0264 88B3      		in r24,56-0x20
+ 480 0266 8861      		ori r24,lo8(24)
+ 481 0268 88BB      		out 56-0x20,r24
+ 482 026a 87B3      		in r24,55-0x20
+ 483 026c 8861      		ori r24,lo8(24)
+ 484 026e 87BB      		out 55-0x20,r24
+ 485 0270 C498      		cbi 56-0x20,4
+ 486 0272 C398      		cbi 56-0x20,3
+ 487               	.LM71:
+ 488 0274 812F      		mov r24,r17
+ 489 0276 E0DE      		rcall I2C_SendByte
+ 490 0278 8823      		tst r24
+ 491 027a B9F4      		brne .L56
+ 492               	.LM72:
+ 493 027c 8D2F      		mov r24,r29
+ 494 027e 9927      		clr r25
+ 495 0280 DBDE      		rcall I2C_SendByte
+ 496 0282 8823      		tst r24
+ 497 0284 91F4      		brne .L56
+ 498               	.LM73:
+ 499 0286 8C2F      		mov r24,r28
+ 500 0288 D7DE      		rcall I2C_SendByte
+ 501 028a 8823      		tst r24
+ 502 028c 71F4      		brne .L56
+ 503               	.LM74:
+ 504 028e FF2D      		mov r31,r15
+ 505 0290 EE2D      		mov r30,r14
+ 506 0292 8081      		ld r24,Z
+ 507 0294 D1DE      		rcall I2C_SendByte
+ 508 0296 8823      		tst r24
+ 509 0298 41F4      		brne .L56
+ 510               	.LM75:
+ 511 029a C398      		cbi 56-0x20,3
+ 512 029c BC9A      		sbi 55-0x20,4
+ 513 029e C498      		cbi 56-0x20,4
+ 514 02a0 C39A      		sbi 56-0x20,3
+ 515 02a2 C49A      		sbi 56-0x20,4
+ 516               	.LM76:
+ 517 02a4 80E0      		ldi r24,lo8(0)
+ 518 02a6 90E0      		ldi r25,hi8(0)
+ 519 02a8 07C0      		rjmp .L48
+ 520               	.L56:
+ 521               	.LM77:
+ 522 02aa C398      		cbi 56-0x20,3
+ 523 02ac BC9A      		sbi 55-0x20,4
+ 524 02ae C498      		cbi 56-0x20,4
+ 525 02b0 C39A      		sbi 56-0x20,3
+ 526 02b2 C49A      		sbi 56-0x20,4
+ 527               	.LM78:
+ 528 02b4 8FEF      		ldi r24,lo8(-1)
+ 529 02b6 9FEF      		ldi r25,hi8(-1)
+ 530               	.L48:
+ 531               	/* epilogue: frame size=0 */
+ 532 02b8 DF91      		pop r29
+ 533 02ba CF91      		pop r28
+ 534 02bc 1F91      		pop r17
+ 535 02be 0F91      		pop r16
+ 536 02c0 FF90      		pop r15
+ 537 02c2 EF90      		pop r14
+ 538 02c4 0895      		ret
+ 539               	/* epilogue end (size=7) */
+ 540               	/* function EE_Write size 81 (68) */
+ 541               	.LFE8:
+ 543               	.global	EE_PageWrite
+ 545               	EE_PageWrite:
+ 546               	.LFB9:
+ 547               	.LM79:
+ 548               	/* prologue: frame size=1 */
+ 549 02c6 CF92      		push r12
+ 550 02c8 DF92      		push r13
+ 551 02ca EF92      		push r14
+ 552 02cc FF92      		push r15
+ 553 02ce 0F93      		push r16
+ 554 02d0 1F93      		push r17
+ 555 02d2 CF93      		push r28
+ 556 02d4 DF93      		push r29
+ 557 02d6 CDB7      		in r28,__SP_L__
+ 558 02d8 DEB7      		in r29,__SP_H__
+ 559 02da 2197      		sbiw r28,1
+ 560 02dc 0FB6      		in __tmp_reg__,__SREG__
+ 561 02de F894      		cli
+ 562 02e0 DEBF      		out __SP_H__,r29
+ 563 02e2 0FBE      		out __SREG__,__tmp_reg__
+ 564 02e4 CDBF      		out __SP_L__,r28
+ 565               	/* prologue end (size=16) */
+ 566 02e6 C82E      		mov r12,r24
+ 567 02e8 D92E      		mov r13,r25
+ 568 02ea 062F      		mov r16,r22
+ 569 02ec 172F      		mov r17,r23
+ 570 02ee F42E      		mov r15,r20
+ 571               	.LM80:
+ 572 02f0 20E4      		ldi r18,lo8(64)
+ 573 02f2 2417      		cp r18,r20
+ 574 02f4 08F4      		brsh .+2
+ 575 02f6 4FC0      		rjmp .L80
+ 576               	.LM81:
+ 577 02f8 97FD      		sbrc r25,7
+ 578 02fa 06C0      		rjmp .L61
+ 579 02fc 840F      		add r24,r20
+ 580 02fe 911D      		adc r25,__zero_reg__
+ 581 0300 8150      		subi r24,lo8(-32767)
+ 582 0302 9048      		sbci r25,hi8(-32767)
+ 583 0304 08F0      		brlo .+2
+ 584 0306 47C0      		rjmp .L80
+ 585               	.L61:
+ 586               	.LM82:
+ 587 0308 9D2D      		mov r25,r13
+ 588 030a 8C2D      		mov r24,r12
+ 589 030c 8070      		andi r24,lo8(-32768)
+ 590 030e 9078      		andi r25,hi8(-32768)
+ 591 0310 892F      		mov r24,r25
+ 592 0312 9927      		clr r25
+ 593 0314 8295      		swap r24
+ 594 0316 8F70      		andi r24,0x0f
+ 595 0318 8870      		andi r24,lo8(8)
+ 596 031a 8983      		std Y+1,r24
+ 597               	.L65:
+ 598               	.LM83:
+ 599 031c 88B3      		in r24,56-0x20
+ 600 031e 8861      		ori r24,lo8(24)
+ 601 0320 88BB      		out 56-0x20,r24
+ 602 0322 87B3      		in r24,55-0x20
+ 603 0324 8861      		ori r24,lo8(24)
+ 604 0326 87BB      		out 55-0x20,r24
+ 605 0328 C498      		cbi 56-0x20,4
+ 606 032a C398      		cbi 56-0x20,3
+ 607 032c E980      		ldd r14,Y+1
+ 608 032e F0EA      		ldi r31,lo8(-96)
+ 609 0330 EF2A      		or r14,r31
+ 610 0332 8E2D      		mov r24,r14
+ 611 0334 81DE      		rcall I2C_SendByte
+ 612 0336 8823      		tst r24
+ 613 0338 89F7      		brne .L65
+ 614               	.LM84:
+ 615 033a 88B3      		in r24,56-0x20
+ 616 033c 8861      		ori r24,lo8(24)
+ 617 033e 88BB      		out 56-0x20,r24
+ 618 0340 87B3      		in r24,55-0x20
+ 619 0342 8861      		ori r24,lo8(24)
+ 620 0344 87BB      		out 55-0x20,r24
+ 621 0346 C498      		cbi 56-0x20,4
+ 622 0348 C398      		cbi 56-0x20,3
+ 623               	.LM85:
+ 624 034a 8E2D      		mov r24,r14
+ 625 034c 75DE      		rcall I2C_SendByte
+ 626 034e 8823      		tst r24
+ 627 0350 E9F4      		brne .L72
+ 628               	.LM86:
+ 629 0352 8D2D      		mov r24,r13
+ 630 0354 9927      		clr r25
+ 631 0356 70DE      		rcall I2C_SendByte
+ 632 0358 8823      		tst r24
+ 633 035a C1F4      		brne .L72
+ 634               	.LM87:
+ 635 035c 8C2D      		mov r24,r12
+ 636 035e 6CDE      		rcall I2C_SendByte
+ 637 0360 8823      		tst r24
+ 638 0362 A1F4      		brne .L72
+ 639               	.L79:
+ 640               	.LM88:
+ 641 0364 FF20      		tst r15
+ 642 0366 51F0      		breq .L78
+ 643               	.LM89:
+ 644 0368 F12F      		mov r31,r17
+ 645 036a E02F      		mov r30,r16
+ 646 036c 8081      		ld r24,Z
+ 647 036e 64DE      		rcall I2C_SendByte
+ 648 0370 8823      		tst r24
+ 649 0372 61F4      		brne .L72
+ 650               	.LM90:
+ 651 0374 FA94      		dec r15
+ 652               	.LM91:
+ 653 0376 0F5F      		subi r16,lo8(-(1))
+ 654 0378 1F4F      		sbci r17,hi8(-(1))
+ 655 037a F4CF      		rjmp .L79
+ 656               	.L78:
+ 657               	.LM92:
+ 658 037c C398      		cbi 56-0x20,3
+ 659 037e BC9A      		sbi 55-0x20,4
+ 660 0380 C498      		cbi 56-0x20,4
+ 661 0382 C39A      		sbi 56-0x20,3
+ 662 0384 C49A      		sbi 56-0x20,4
+ 663               	.LM93:
+ 664 0386 80E0      		ldi r24,lo8(0)
+ 665 0388 90E0      		ldi r25,hi8(0)
+ 666 038a 07C0      		rjmp .L60
+ 667               	.L72:
+ 668               	.LM94:
+ 669 038c C398      		cbi 56-0x20,3
+ 670 038e BC9A      		sbi 55-0x20,4
+ 671 0390 C498      		cbi 56-0x20,4
+ 672 0392 C39A      		sbi 56-0x20,3
+ 673 0394 C49A      		sbi 56-0x20,4
+ 674               	.L80:
+ 675               	.LM95:
+ 676 0396 8FEF      		ldi r24,lo8(-1)
+ 677 0398 9FEF      		ldi r25,hi8(-1)
+ 678               	.L60:
+ 679               	/* epilogue: frame size=1 */
+ 680 039a 2196      		adiw r28,1
+ 681 039c 0FB6      		in __tmp_reg__,__SREG__
+ 682 039e F894      		cli
+ 683 03a0 DEBF      		out __SP_H__,r29
+ 684 03a2 0FBE      		out __SREG__,__tmp_reg__
+ 685 03a4 CDBF      		out __SP_L__,r28
+ 686 03a6 DF91      		pop r29
+ 687 03a8 CF91      		pop r28
+ 688 03aa 1F91      		pop r17
+ 689 03ac 0F91      		pop r16
+ 690 03ae FF90      		pop r15
+ 691 03b0 EF90      		pop r14
+ 692 03b2 DF90      		pop r13
+ 693 03b4 CF90      		pop r12
+ 694 03b6 0895      		ret
+ 695               	/* epilogue end (size=15) */
+ 696               	/* function EE_PageWrite size 122 (91) */
+ 697               	.LFE9:
+ 699               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 ext_eeprom_mchp24.c
+                            *ABS*:0000003f __SREG__
+                            *ABS*:0000003e __SP_H__
+                            *ABS*:0000003d __SP_L__
+                            *ABS*:00000000 __tmp_reg__
+                            *ABS*:00000001 __zero_reg__
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccWyaaaa.s:20     .text:00000000 I2C_SendBit
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccWyaaaa.s:53     .text:00000016 I2C_GetBit
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccWyaaaa.s:91     .text:00000038 I2C_SendByte
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccWyaaaa.s:142    .text:00000078 I2C_GetByte
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccWyaaaa.s:198    .text:000000c0 EE_Read
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccWyaaaa.s:302    .text:0000015a EE_PageRead
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccWyaaaa.s:438    .text:00000224 EE_Write
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccWyaaaa.s:545    .text:000002c6 EE_PageWrite
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

@@ -1,0 +1,575 @@
+   1               		.file	"timers.c"
+   2               		.arch at90s8515
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  17               	.Ltext0:
+  18               	.global	gpTimer
+  19               	.global	gpTimer
+  20               		.section .bss
+  23               	gpTimer:
+  24 0000 0000      		.skip 2,0
+  25               		.text
+  26               	.global	tmrCall
+  28               	tmrCall:
+  29               	.LFB2:
+  30               	.LM1:
+  31               	/* prologue: frame size=2 */
+  32 0000 CF93      		push r28
+  33 0002 DF93      		push r29
+  34 0004 CDB7      		in r28,__SP_L__
+  35 0006 DEB7      		in r29,__SP_H__
+  36 0008 2297      		sbiw r28,2
+  37 000a 0FB6      		in __tmp_reg__,__SREG__
+  38 000c F894      		cli
+  39 000e DEBF      		out __SP_H__,r29
+  40 0010 0FBE      		out __SREG__,__tmp_reg__
+  41 0012 CDBF      		out __SP_L__,r28
+  42               	/* prologue end (size=10) */
+  43               	.LM2:
+  44 0014 1982      		std Y+1,__zero_reg__
+  45 0016 1A82      		std Y+2,__zero_reg__
+  46               	.LM3:
+  47 0018 8091 0000 		lds r24,gpTimer
+  48 001c 9091 0000 		lds r25,(gpTimer)+1
+  49 0020 892B      		or r24,r25
+  50 0022 09F4      		brne .+2
+  51 0024 A0C0      		rjmp .L1
+  52               	.LM4:
+  53 0026 8091 0000 		lds r24,gpTimer
+  54 002a 9091 0000 		lds r25,(gpTimer)+1
+  55               	.L16:
+  56 002e 8983      		std Y+1,r24
+  57 0030 9A83      		std Y+2,r25
+  58               	.LM5:
+  59 0032 E981      		ldd r30,Y+1
+  60 0034 FA81      		ldd r31,Y+2
+  61 0036 8081      		ld r24,Z
+  62 0038 9181      		ldd r25,Z+1
+  63 003a A281      		ldd r26,Z+2
+  64 003c B381      		ldd r27,Z+3
+  65 003e B7FF      		sbrs r27,7
+  66 0040 87C0      		rjmp .L5
+  67               	.LM6:
+  68 0042 E981      		ldd r30,Y+1
+  69 0044 FA81      		ldd r31,Y+2
+  70 0046 8481      		ldd r24,Z+4
+  71 0048 9581      		ldd r25,Z+5
+  72 004a A681      		ldd r26,Z+6
+  73 004c B781      		ldd r27,Z+7
+  74 004e 0497      		sbiw r24,4
+  75 0050 A109      		sbc r26,__zero_reg__
+  76 0052 B109      		sbc r27,__zero_reg__
+  77 0054 8483      		std Z+4,r24
+  78 0056 9583      		std Z+5,r25
+  79 0058 A683      		std Z+6,r26
+  80 005a B783      		std Z+7,r27
+  81               	.LM7:
+  82 005c E981      		ldd r30,Y+1
+  83 005e FA81      		ldd r31,Y+2
+  84 0060 8481      		ldd r24,Z+4
+  85 0062 9581      		ldd r25,Z+5
+  86 0064 A681      		ldd r26,Z+6
+  87 0066 B781      		ldd r27,Z+7
+  88 0068 8050      		subi r24,lo8(1073741824)
+  89 006a 9040      		sbci r25,hi8(1073741824)
+  90 006c A040      		sbci r26,hlo8(1073741824)
+  91 006e B044      		sbci r27,hhi8(1073741824)
+  92 0070 08F4      		brsh .+2
+  93 0072 6EC0      		rjmp .L5
+  94               	.LM8:
+  95 0074 E981      		ldd r30,Y+1
+  96 0076 FA81      		ldd r31,Y+2
+  97 0078 0084      		ldd __tmp_reg__,Z+8
+  98 007a F185      		ldd r31,Z+9
+  99 007c E02D      		mov r30,__tmp_reg__
+ 100 007e 0995      		icall
+ 101               	.LM9:
+ 102 0080 E981      		ldd r30,Y+1
+ 103 0082 FA81      		ldd r31,Y+2
+ 104 0084 8081      		ld r24,Z
+ 105 0086 9181      		ldd r25,Z+1
+ 106 0088 A281      		ldd r26,Z+2
+ 107 008a B381      		ldd r27,Z+3
+ 108 008c 2EE1      		ldi r18,30
+ 109 008e B695      	1:	lsr r27
+ 110 0090 A795      		ror r26
+ 111 0092 9795      		ror r25
+ 112 0094 8795      		ror r24
+ 113 0096 2A95      		dec r18
+ 114 0098 D1F7      		brne 1b
+ 115 009a 8170      		andi r24,lo8(1)
+ 116 009c 9070      		andi r25,hi8(1)
+ 117 009e 892B      		or r24,r25
+ 118 00a0 81F0      		breq .L7
+ 119               	.LM10:
+ 120 00a2 2981      		ldd r18,Y+1
+ 121 00a4 3A81      		ldd r19,Y+2
+ 122 00a6 E981      		ldd r30,Y+1
+ 123 00a8 FA81      		ldd r31,Y+2
+ 124 00aa 8081      		ld r24,Z
+ 125 00ac 9181      		ldd r25,Z+1
+ 126 00ae A281      		ldd r26,Z+2
+ 127 00b0 B381      		ldd r27,Z+3
+ 128 00b2 BF73      		andi r27,hhi8(1073741823)
+ 129 00b4 F32F      		mov r31,r19
+ 130 00b6 E22F      		mov r30,r18
+ 131 00b8 8483      		std Z+4,r24
+ 132 00ba 9583      		std Z+5,r25
+ 133 00bc A683      		std Z+6,r26
+ 134 00be B783      		std Z+7,r27
+ 135 00c0 47C0      		rjmp .L5
+ 136               	.L7:
+ 137               	.LM11:
+ 138 00c2 E981      		ldd r30,Y+1
+ 139 00c4 FA81      		ldd r31,Y+2
+ 140 00c6 2285      		ldd r18,Z+10
+ 141 00c8 3385      		ldd r19,Z+11
+ 142 00ca 2115      		cp r18,__zero_reg__
+ 143 00cc 3105      		cpc r19,__zero_reg__
+ 144 00ce D1F4      		brne .L9
+ 145 00d0 E981      		ldd r30,Y+1
+ 146 00d2 FA81      		ldd r31,Y+2
+ 147 00d4 8485      		ldd r24,Z+12
+ 148 00d6 9585      		ldd r25,Z+13
+ 149 00d8 0097      		sbiw r24,0
+ 150 00da 29F4      		brne .L10
+ 151 00dc 9093 0000 		sts (gpTimer)+1,r25
+ 152 00e0 8093 0000 		sts gpTimer,r24
+ 153 00e4 35C0      		rjmp .L5
+ 154               	.L10:
+ 155 00e6 E981      		ldd r30,Y+1
+ 156 00e8 FA81      		ldd r31,Y+2
+ 157 00ea 8485      		ldd r24,Z+12
+ 158 00ec 9585      		ldd r25,Z+13
+ 159 00ee 9093 0000 		sts (gpTimer)+1,r25
+ 160 00f2 8093 0000 		sts gpTimer,r24
+ 161 00f6 E091 0000 		lds r30,gpTimer
+ 162 00fa F091 0000 		lds r31,(gpTimer)+1
+ 163 00fe 2287      		std Z+10,r18
+ 164 0100 3387      		std Z+11,r19
+ 165 0102 26C0      		rjmp .L5
+ 166               	.L9:
+ 167 0104 E981      		ldd r30,Y+1
+ 168 0106 FA81      		ldd r31,Y+2
+ 169 0108 8485      		ldd r24,Z+12
+ 170 010a 9585      		ldd r25,Z+13
+ 171 010c 0097      		sbiw r24,0
+ 172 010e 41F4      		brne .L13
+ 173 0110 E981      		ldd r30,Y+1
+ 174 0112 FA81      		ldd r31,Y+2
+ 175 0114 0284      		ldd __tmp_reg__,Z+10
+ 176 0116 F385      		ldd r31,Z+11
+ 177 0118 E02D      		mov r30,__tmp_reg__
+ 178 011a 8487      		std Z+12,r24
+ 179 011c 9587      		std Z+13,r25
+ 180 011e 18C0      		rjmp .L5
+ 181               	.L13:
+ 182 0120 E981      		ldd r30,Y+1
+ 183 0122 FA81      		ldd r31,Y+2
+ 184 0124 A285      		ldd r26,Z+10
+ 185 0126 B385      		ldd r27,Z+11
+ 186 0128 E981      		ldd r30,Y+1
+ 187 012a FA81      		ldd r31,Y+2
+ 188 012c 8485      		ldd r24,Z+12
+ 189 012e 9585      		ldd r25,Z+13
+ 190 0130 FB2F      		mov r31,r27
+ 191 0132 EA2F      		mov r30,r26
+ 192 0134 8487      		std Z+12,r24
+ 193 0136 9587      		std Z+13,r25
+ 194 0138 E981      		ldd r30,Y+1
+ 195 013a FA81      		ldd r31,Y+2
+ 196 013c A485      		ldd r26,Z+12
+ 197 013e B585      		ldd r27,Z+13
+ 198 0140 E981      		ldd r30,Y+1
+ 199 0142 FA81      		ldd r31,Y+2
+ 200 0144 8285      		ldd r24,Z+10
+ 201 0146 9385      		ldd r25,Z+11
+ 202 0148 FB2F      		mov r31,r27
+ 203 014a EA2F      		mov r30,r26
+ 204 014c 8287      		std Z+10,r24
+ 205 014e 9387      		std Z+11,r25
+ 206               	.L5:
+ 207               	.LM12:
+ 208 0150 E981      		ldd r30,Y+1
+ 209 0152 FA81      		ldd r31,Y+2
+ 210 0154 8485      		ldd r24,Z+12
+ 211 0156 9585      		ldd r25,Z+13
+ 212 0158 892B      		or r24,r25
+ 213 015a 29F0      		breq .L1
+ 214               	.LM13:
+ 215 015c E981      		ldd r30,Y+1
+ 216 015e FA81      		ldd r31,Y+2
+ 217 0160 8485      		ldd r24,Z+12
+ 218 0162 9585      		ldd r25,Z+13
+ 219 0164 64CF      		rjmp .L16
+ 220               	.L1:
+ 221               	/* epilogue: frame size=2 */
+ 222 0166 2296      		adiw r28,2
+ 223 0168 0FB6      		in __tmp_reg__,__SREG__
+ 224 016a F894      		cli
+ 225 016c DEBF      		out __SP_H__,r29
+ 226 016e 0FBE      		out __SREG__,__tmp_reg__
+ 227 0170 CDBF      		out __SP_L__,r28
+ 228 0172 DF91      		pop r29
+ 229 0174 CF91      		pop r28
+ 230 0176 0895      		ret
+ 231               	/* epilogue end (size=9) */
+ 232               	/* function tmrCall size 191 (172) */
+ 233               	.LFE2:
+ 235               	.global	tmrAdd
+ 237               	tmrAdd:
+ 238               	.LFB3:
+ 239               	.LM14:
+ 240               	/* prologue: frame size=0 */
+ 241               	/* prologue end (size=0) */
+ 242 0178 B92F      		mov r27,r25
+ 243 017a A82F      		mov r26,r24
+ 244               	.LM15:
+ 245 017c 8091 0000 		lds r24,gpTimer
+ 246 0180 9091 0000 		lds r25,(gpTimer)+1
+ 247 0184 0097      		sbiw r24,0
+ 248 0186 89F4      		brne .L18
+ 249               	.LM16:
+ 250 0188 B093 0000 		sts (gpTimer)+1,r27
+ 251 018c A093 0000 		sts gpTimer,r26
+ 252               	.LM17:
+ 253 0190 E091 0000 		lds r30,gpTimer
+ 254 0194 F091 0000 		lds r31,(gpTimer)+1
+ 255 0198 8287      		std Z+10,r24
+ 256 019a 9387      		std Z+11,r25
+ 257               	.LM18:
+ 258 019c E091 0000 		lds r30,gpTimer
+ 259 01a0 F091 0000 		lds r31,(gpTimer)+1
+ 260 01a4 8487      		std Z+12,r24
+ 261 01a6 9587      		std Z+13,r25
+ 262 01a8 0895      		ret
+ 263               	.L18:
+ 264               	.LM19:
+ 265 01aa E091 0000 		lds r30,gpTimer
+ 266 01ae F091 0000 		lds r31,(gpTimer)+1
+ 267 01b2 A287      		std Z+10,r26
+ 268 01b4 B387      		std Z+11,r27
+ 269               	.LM20:
+ 270 01b6 8091 0000 		lds r24,gpTimer
+ 271 01ba 9091 0000 		lds r25,(gpTimer)+1
+ 272 01be FB2F      		mov r31,r27
+ 273 01c0 EA2F      		mov r30,r26
+ 274 01c2 8487      		std Z+12,r24
+ 275 01c4 9587      		std Z+13,r25
+ 276               	.LM21:
+ 277 01c6 1286      		std Z+10,__zero_reg__
+ 278 01c8 1386      		std Z+11,__zero_reg__
+ 279               	.LM22:
+ 280 01ca B093 0000 		sts (gpTimer)+1,r27
+ 281 01ce A093 0000 		sts gpTimer,r26
+ 282 01d2 0895      		ret
+ 283               	/* epilogue: frame size=0 */
+ 284 01d4 0895      		ret
+ 285               	/* epilogue end (size=1) */
+ 286               	/* function tmrAdd size 47 (46) */
+ 287               	.LFE3:
+ 289               	.global	tmrSafeInit
+ 291               	tmrSafeInit:
+ 292               	.LFB4:
+ 293               	.LM23:
+ 294               	/* prologue: frame size=0 */
+ 295 01d6 EF92      		push r14
+ 296 01d8 FF92      		push r15
+ 297 01da 0F93      		push r16
+ 298 01dc 1F93      		push r17
+ 299               	/* prologue end (size=4) */
+ 300 01de F92F      		mov r31,r25
+ 301 01e0 E82F      		mov r30,r24
+ 302               	.LM24:
+ 303 01e2 6230      		cpi r22,lo8(2)
+ 304 01e4 18F0      		brlo .L21
+ 305               	.LM25:
+ 306 01e6 8FEF      		ldi r24,lo8(-1)
+ 307 01e8 9FEF      		ldi r25,hi8(-1)
+ 308 01ea 42C0      		rjmp .L20
+ 309               	.L21:
+ 310               	.LM26:
+ 311 01ec 4230      		cpi r20,lo8(2)
+ 312 01ee 18F0      		brlo .L22
+ 313               	.LM27:
+ 314 01f0 8EEF      		ldi r24,lo8(-2)
+ 315 01f2 9FEF      		ldi r25,hi8(-2)
+ 316 01f4 3DC0      		rjmp .L20
+ 317               	.L22:
+ 318               	.LM28:
+ 319 01f6 E114      		cp r14,__zero_reg__
+ 320 01f8 F104      		cpc r15,__zero_reg__
+ 321 01fa 19F4      		brne .L23
+ 322               	.LM29:
+ 323 01fc 8DEF      		ldi r24,lo8(-3)
+ 324 01fe 9FEF      		ldi r25,hi8(-3)
+ 325 0200 37C0      		rjmp .L20
+ 326               	.L23:
+ 327               	.LM30:
+ 328 0202 892B      		or r24,r25
+ 329 0204 19F4      		brne .L24
+ 330               	.LM31:
+ 331 0206 8CEF      		ldi r24,lo8(-4)
+ 332 0208 9FEF      		ldi r25,hi8(-4)
+ 333 020a 32C0      		rjmp .L20
+ 334               	.L24:
+ 335               	.LM32:
+ 336 020c 0030      		cpi r16,lo8(1073741824)
+ 337 020e 80E0      		ldi r24,hi8(1073741824)
+ 338 0210 1807      		cpc r17,r24
+ 339 0212 80E0      		ldi r24,hlo8(1073741824)
+ 340 0214 2807      		cpc r18,r24
+ 341 0216 80E4      		ldi r24,hhi8(1073741824)
+ 342 0218 3807      		cpc r19,r24
+ 343 021a 18F0      		brlo .L25
+ 344               	.LM33:
+ 345 021c 8BEF      		ldi r24,lo8(-5)
+ 346 021e 9FEF      		ldi r25,hi8(-5)
+ 347 0220 27C0      		rjmp .L20
+ 348               	.L25:
+ 349               	.LM34:
+ 350 0222 0083      		st Z,r16
+ 351 0224 1183      		std Z+1,r17
+ 352 0226 2283      		std Z+2,r18
+ 353 0228 3383      		std Z+3,r19
+ 354               	.LM35:
+ 355 022a 6623      		tst r22
+ 356 022c 29F0      		breq .L26
+ 357               	.LM36:
+ 358 022e 3068      		ori r19,hhi8(-2147483648)
+ 359 0230 0083      		st Z,r16
+ 360 0232 1183      		std Z+1,r17
+ 361 0234 2283      		std Z+2,r18
+ 362 0236 3383      		std Z+3,r19
+ 363               	.L26:
+ 364               	.LM37:
+ 365 0238 4423      		tst r20
+ 366 023a 49F0      		breq .L27
+ 367               	.LM38:
+ 368 023c 8081      		ld r24,Z
+ 369 023e 9181      		ldd r25,Z+1
+ 370 0240 A281      		ldd r26,Z+2
+ 371 0242 B381      		ldd r27,Z+3
+ 372 0244 B064      		ori r27,hhi8(1073741824)
+ 373 0246 8083      		st Z,r24
+ 374 0248 9183      		std Z+1,r25
+ 375 024a A283      		std Z+2,r26
+ 376 024c B383      		std Z+3,r27
+ 377               	.L27:
+ 378               	.LM39:
+ 379 024e 8081      		ld r24,Z
+ 380 0250 9181      		ldd r25,Z+1
+ 381 0252 A281      		ldd r26,Z+2
+ 382 0254 B381      		ldd r27,Z+3
+ 383 0256 BF73      		andi r27,hhi8(1073741823)
+ 384 0258 8483      		std Z+4,r24
+ 385 025a 9583      		std Z+5,r25
+ 386 025c A683      		std Z+6,r26
+ 387 025e B783      		std Z+7,r27
+ 388               	.LM40:
+ 389 0260 E086      		std Z+8,r14
+ 390 0262 F186      		std Z+9,r15
+ 391               	.LM41:
+ 392 0264 1486      		std Z+12,__zero_reg__
+ 393 0266 1586      		std Z+13,__zero_reg__
+ 394               	.LM42:
+ 395 0268 1286      		std Z+10,__zero_reg__
+ 396 026a 1386      		std Z+11,__zero_reg__
+ 397               	.LM43:
+ 398 026c 80E0      		ldi r24,lo8(0)
+ 399 026e 90E0      		ldi r25,hi8(0)
+ 400               	.L20:
+ 401               	/* epilogue: frame size=0 */
+ 402 0270 1F91      		pop r17
+ 403 0272 0F91      		pop r16
+ 404 0274 FF90      		pop r15
+ 405 0276 EF90      		pop r14
+ 406 0278 0895      		ret
+ 407               	/* epilogue end (size=5) */
+ 408               	/* function tmrSafeInit size 82 (73) */
+ 409               	.LFE4:
+ 411               	.global	tmrClean
+ 413               	tmrClean:
+ 414               	.LFB6:
+ 415               	.LM44:
+ 416               	/* prologue: frame size=0 */
+ 417               	/* prologue end (size=0) */
+ 418 027a F92F      		mov r31,r25
+ 419 027c E82F      		mov r30,r24
+ 420               	.LM45:
+ 421 027e 1082      		st Z,__zero_reg__
+ 422 0280 1182      		std Z+1,__zero_reg__
+ 423 0282 1282      		std Z+2,__zero_reg__
+ 424 0284 1382      		std Z+3,__zero_reg__
+ 425               	/* epilogue: frame size=0 */
+ 426 0286 0895      		ret
+ 427               	/* epilogue end (size=1) */
+ 428               	/* function tmrClean size 7 (6) */
+ 429               	.LFE6:
+ 431               	.global	tmrInit
+ 433               	tmrInit:
+ 434               	.LFB5:
+ 435               	.LM46:
+ 436               	/* prologue: frame size=0 */
+ 437 0288 8F92      		push r8
+ 438 028a 9F92      		push r9
+ 439 028c AF92      		push r10
+ 440 028e BF92      		push r11
+ 441 0290 CF92      		push r12
+ 442 0292 DF92      		push r13
+ 443 0294 EF92      		push r14
+ 444 0296 FF92      		push r15
+ 445 0298 0F93      		push r16
+ 446 029a 1F93      		push r17
+ 447 029c CF93      		push r28
+ 448 029e DF93      		push r29
+ 449               	/* prologue end (size=12) */
+ 450 02a0 D92F      		mov r29,r25
+ 451 02a2 C82F      		mov r28,r24
+ 452 02a4 962E      		mov r9,r22
+ 453 02a6 842E      		mov r8,r20
+ 454 02a8 A02E      		mov r10,r16
+ 455 02aa B12E      		mov r11,r17
+ 456 02ac C22E      		mov r12,r18
+ 457 02ae D32E      		mov r13,r19
+ 458               	.LM47:
+ 459 02b0 E4DF      		rcall tmrClean
+ 460               	.LM48:
+ 461 02b2 37FD      		sbrc r19,7
+ 462 02b4 06C0      		rjmp .L31
+ 463               	.LM49:
+ 464 02b6 932F      		mov r25,r19
+ 465 02b8 822F      		mov r24,r18
+ 466 02ba 712F      		mov r23,r17
+ 467 02bc 602F      		mov r22,r16
+ 468 02be 00D0      		rcall __floatsisf
+ 469 02c0 1AC0      		rjmp .L30
+ 470               	.L31:
+ 471 02c2 B32F      		mov r27,r19
+ 472 02c4 A22F      		mov r26,r18
+ 473 02c6 912F      		mov r25,r17
+ 474 02c8 802F      		mov r24,r16
+ 475 02ca 8170      		andi r24,lo8(1)
+ 476 02cc 9070      		andi r25,hi8(1)
+ 477 02ce A070      		andi r26,hlo8(1)
+ 478 02d0 B070      		andi r27,hhi8(1)
+ 479 02d2 D694      		lsr r13
+ 480 02d4 C794      		ror r12
+ 481 02d6 B794      		ror r11
+ 482 02d8 A794      		ror r10
+ 483 02da 8A29      		or r24,r10
+ 484 02dc 9B29      		or r25,r11
+ 485 02de AC29      		or r26,r12
+ 486 02e0 BD29      		or r27,r13
+ 487 02e2 682F      		mov r22,r24
+ 488 02e4 792F      		mov r23,r25
+ 489 02e6 8A2F      		mov r24,r26
+ 490 02e8 9B2F      		mov r25,r27
+ 491 02ea 00D0      		rcall __floatsisf
+ 492 02ec 262F      		mov r18,r22
+ 493 02ee 372F      		mov r19,r23
+ 494 02f0 482F      		mov r20,r24
+ 495 02f2 592F      		mov r21,r25
+ 496 02f4 00D0      		rcall __addsf3
+ 497               	.L30:
+ 498 02f6 23E2      		ldi r18,lo8(0x3f79db23)
+ 499 02f8 3BED      		ldi r19,hi8(0x3f79db23)
+ 500 02fa 49E7      		ldi r20,hlo8(0x3f79db23)
+ 501 02fc 5FE3      		ldi r21,hhi8(0x3f79db23)
+ 502 02fe 00D0      		rcall __mulsf3
+ 503 0300 B92F      		mov r27,r25
+ 504 0302 A82F      		mov r26,r24
+ 505 0304 972F      		mov r25,r23
+ 506 0306 862F      		mov r24,r22
+ 507 0308 682F      		mov r22,r24
+ 508 030a 792F      		mov r23,r25
+ 509 030c 8A2F      		mov r24,r26
+ 510 030e 9B2F      		mov r25,r27
+ 511 0310 00D0      		rcall __fixunssfsi
+ 512 0312 9F73      		andi r25,hhi8(1073741823)
+ 513 0314 6883      		st Y,r22
+ 514 0316 7983      		std Y+1,r23
+ 515 0318 8A83      		std Y+2,r24
+ 516 031a 9B83      		std Y+3,r25
+ 517               	.LM50:
+ 518 031c 6C83      		std Y+4,r22
+ 519 031e 7D83      		std Y+5,r23
+ 520 0320 8E83      		std Y+6,r24
+ 521 0322 9F83      		std Y+7,r25
+ 522               	.LM51:
+ 523 0324 9920      		tst r9
+ 524 0326 29F0      		breq .L32
+ 525               	.LM52:
+ 526 0328 9068      		ori r25,hhi8(-2147483648)
+ 527 032a 6883      		st Y,r22
+ 528 032c 7983      		std Y+1,r23
+ 529 032e 8A83      		std Y+2,r24
+ 530 0330 9B83      		std Y+3,r25
+ 531               	.L32:
+ 532               	.LM53:
+ 533 0332 8820      		tst r8
+ 534 0334 49F0      		breq .L33
+ 535               	.LM54:
+ 536 0336 8881      		ld r24,Y
+ 537 0338 9981      		ldd r25,Y+1
+ 538 033a AA81      		ldd r26,Y+2
+ 539 033c BB81      		ldd r27,Y+3
+ 540 033e B064      		ori r27,hhi8(1073741824)
+ 541 0340 8883      		st Y,r24
+ 542 0342 9983      		std Y+1,r25
+ 543 0344 AA83      		std Y+2,r26
+ 544 0346 BB83      		std Y+3,r27
+ 545               	.L33:
+ 546               	.LM55:
+ 547 0348 E886      		std Y+8,r14
+ 548 034a F986      		std Y+9,r15
+ 549               	.LM56:
+ 550 034c 1C86      		std Y+12,__zero_reg__
+ 551 034e 1D86      		std Y+13,__zero_reg__
+ 552               	.LM57:
+ 553 0350 1A86      		std Y+10,__zero_reg__
+ 554 0352 1B86      		std Y+11,__zero_reg__
+ 555               	/* epilogue: frame size=0 */
+ 556 0354 DF91      		pop r29
+ 557 0356 CF91      		pop r28
+ 558 0358 1F91      		pop r17
+ 559 035a 0F91      		pop r16
+ 560 035c FF90      		pop r15
+ 561 035e EF90      		pop r14
+ 562 0360 DF90      		pop r13
+ 563 0362 CF90      		pop r12
+ 564 0364 BF90      		pop r11
+ 565 0366 AF90      		pop r10
+ 566 0368 9F90      		pop r9
+ 567 036a 8F90      		pop r8
+ 568 036c 0895      		ret
+ 569               	/* epilogue end (size=13) */
+ 570               	/* function tmrInit size 115 (90) */
+ 571               	.LFE5:
+ 573               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 timers.c
+                            *ABS*:0000003f __SREG__
+                            *ABS*:0000003e __SP_H__
+                            *ABS*:0000003d __SP_L__
+                            *ABS*:00000000 __tmp_reg__
+                            *ABS*:00000001 __zero_reg__
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccwxaaaa.s:23     .bss:00000000 gpTimer
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccwxaaaa.s:28     .text:00000000 tmrCall
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccwxaaaa.s:237    .text:00000178 tmrAdd
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccwxaaaa.s:291    .text:000001d6 tmrSafeInit
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccwxaaaa.s:413    .text:0000027a tmrClean
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/ccwxaaaa.s:433    .text:00000288 tmrInit
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+__floatsisf
+__addsf3
+__mulsf3
+__fixunssfsi

@@ -1,0 +1,42 @@
+   1               		.file	"hwWD.c"
+   2               		.arch at90s2313
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  17               	.Ltext0:
+  18               	.global	WD_Disable
+  20               	WD_Disable:
+  21               	.LFB2:
+  22               	.LM1:
+  23               	/* prologue: frame size=0 */
+  24               	/* prologue end (size=0) */
+  25               	.LM2:
+  26 0000 81B5      		in r24,65-0x20
+  27 0002 8861      		ori r24,lo8(24)
+  28 0004 81BD      		out 65-0x20,r24
+  29               	.LM3:
+  30 0006 81B5      		in r24,65-0x20
+  31 0008 877F      		andi r24,lo8(-9)
+  32 000a 81BD      		out 65-0x20,r24
+  33               	/* epilogue: frame size=0 */
+  34 000c 0895      		ret
+  35               	/* epilogue end (size=1) */
+  36               	/* function WD_Disable size 7 (6) */
+  37               	.LFE2:
+  39               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 hwWD.c
+                            *ABS*:0000003f __SREG__
+                            *ABS*:0000003e __SP_H__
+                            *ABS*:0000003d __SP_L__
+                            *ABS*:00000000 __tmp_reg__
+                            *ABS*:00000001 __zero_reg__
+D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/cckfaaaa.s:20     .text:00000000 WD_Disable
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
