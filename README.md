@@ -15,4 +15,4 @@ Build:
 - Programming is done using AVRDude http://www.nongnu.org/avrdude/
 - PCB is made using Altium Designer http://www.altium.com/
 
-For more information about the project visit http://www.insproject.com
+For more information about the project visit http://www.insproject.com/Projects
