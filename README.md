@@ -10,9 +10,10 @@ Features:
 - Analog output.
 - Digital output (alarm signal).
 
+For more information about the project visit project home page:
+-  http://www.insproject.com/Projects
+
 Build:
 - Source is built using Programmers Notepad http://www.pnotepad.org/
 - Programming is done using AVRDude http://www.nongnu.org/avrdude/
 - PCB is made using Altium Designer http://www.altium.com/
-
-For more information about the project visit http://www.insproject.com/Projects
