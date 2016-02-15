@@ -10,8 +10,8 @@ Features:
 - Analog output.
 - Digital output (alarm signal).
 
-For more information about the project visit project home page:
--  http://www.insproject.com/Projects
+For more information visit project home page:
+-  Inspiration Project http://www.insproject.com/Projects
 
 Build:
 - Source is built using Programmers Notepad http://www.pnotepad.org/
